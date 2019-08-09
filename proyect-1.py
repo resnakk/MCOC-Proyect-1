@@ -45,7 +45,7 @@ for k in range(7000):
 	#Loop en el espacio i = 1 ... n - 1; u_k1[0] = 0; u_k1[n] = 20
 	#Condicion de borde
 	u_k[0] = 0
-	u_k[n] = 20
+	u_k[n] = 0
 
 	for i in range(1,n):
 		#Algoritmo de diferencias finitas 1-D para la difusion
