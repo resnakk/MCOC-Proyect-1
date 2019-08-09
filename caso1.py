@@ -58,7 +58,7 @@ for k in range(1000):
 
 plot(x,u0)
 plot(x,u_k)
-title("k = {}  t = {} ")
+title("Grafico 1"	)
 savefig("caso1-1.png")
 #Caso 1.2, 7000 segundos
 plot(x, u0, "k--")
@@ -82,7 +82,7 @@ for k in range(10000):
 
 plot(x,u0)
 plot(x,u_k)
-title("k = {}  t = {} ")
+title("Grafico 2")
 savefig("caso1-2.png")
 
 #Caso 1.3, 20.000 segundos
@@ -107,6 +107,6 @@ for k in range(20000):
 
 plot(x,u0)
 plot(x,u_k)
-title("k = {}  t = {} ")
+title("Grafico 3")
 savefig("caso1-3.png")
 
