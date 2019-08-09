@@ -43,9 +43,8 @@ for k in range(7000):
 	print("k = ", k, "t = ", t)
 
 	#Loop en el espacio i = 1 ... n - 1; u_k1[0] = 0; u_k1[n] = 20
+	#Condiciones de borde
 	u_k[0] = u_k[1] 
-	
-
 
 	for i in range(1,n):
 		#Algoritmo de diferencias finitas 1-D para la difusion
@@ -58,4 +57,4 @@ for k in range(7000):
 plot(x,u0)
 plot(x,u_k)
 title("k = {}  t = {} ")
-show()
+ssavefig("caso2.png")

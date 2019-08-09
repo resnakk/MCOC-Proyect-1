@@ -58,4 +58,4 @@ for k in range(7000):
 plot(x,u0)
 plot(x,u_k)
 title("k = {}  t = {} ")
-show()
+savefig("caso3.png")
