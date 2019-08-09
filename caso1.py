@@ -1,4 +1,4 @@
-#Difusion 1-D
+#Difusion 1-D: Caso 1: Ti = 0, Tf = 20
 from matplotlib.pylab import *
 l = 1. #Largo dell dominio
 n = 100 #Numero de intervalos
@@ -43,7 +43,8 @@ for k in range(7000):
 	print("k = ", k, "t = ", t)
 
 	#Loop en el espacio i = 1 ... n - 1; u_k1[0] = 0; u_k1[n] = 20
-	u_k[0] = u_k[1] 
+	u_k[0] = 0
+	u_k[n] = 20
 	
 
 
@@ -52,7 +53,7 @@ for k in range(7000):
 		u_k1[i] = u_k[i] + alpha*(u_k[i + 1] - 2*u_k[i] + u_k[i - 1])
 	#Avanzar en la solucion
 	u_k = u_k1
-	if k % 50 == 0:
+	if k % 200 == 0:
 		plot(x, u_k)
 
 plot(x,u0)
