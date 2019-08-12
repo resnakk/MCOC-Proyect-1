@@ -58,6 +58,8 @@ for k in range(10000):
 	if k % 500 == 0:
 		plot(x,u_k)
 
-title("k = {} t = {} s".format(k, k*dt))
+title("Grafico 7")
+xlabel("Discretizacion espacial")
+ylabel("Temperatura °C")
 savefig("caso7.png")
 show()

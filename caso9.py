@@ -27,7 +27,7 @@ u_k[n] = 40.
 u_km1 = u_k.copy()
 
 #aluminio
-dt = 1. #s, tiempo
+dt = 0.01 #s, tiempo
 K  = 237. #m2/s , conductividad termica
 c = 900. #j/kgC , calor especifico
 rho = 2698.4 #kg/m3 , densidad
@@ -53,7 +53,7 @@ for k in range(5000):
 	u_km1[n] = 40.
 	for i in range(1,n):
 		#algoritmo diferencias finitas
-		u_km1[i] =  (t*50.)*dt + u_k[i] + alpha*(u_k[i+1] - 2*u_k[i] + u_k[i-1])
+		u_km1[i] =  (t/50.)*dt + u_k[i] + alpha*(u_k[i+1] - 2*u_k[i] + u_k[i-1])
 	u_k = u_km1
 	if k % 500 == 0:
 		plot(x,u_k)
