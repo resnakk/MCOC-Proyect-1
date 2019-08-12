@@ -52,7 +52,7 @@ for k in range(8000):
 	if k % 500 == 0:
 		plot(x,u_k)
 
-title("Grafico 8, Aluminio")
+title("Grafico caso 8, Aluminio")
 xlabel("Discretizacion espacial")
 ylabel("Temperatura °C")
 savefig("caso8.png")
