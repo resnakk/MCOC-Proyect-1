@@ -16,7 +16,9 @@ K = 0
 #creando el vector de solucion u
 u_k = u0.copy() #Crea una nueva instancia del vector en la memoria 
 
-#Condiiones de borde escenciales
+#CondiionesPasó algo?
+11:49
+ de borde escenciales
 u_k[0] = 0.
 u_k[n] = 20.
 
