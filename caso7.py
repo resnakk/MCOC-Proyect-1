@@ -4,7 +4,7 @@ from matplotlib.pylab import *
 
 
 L = 1. #largo del dominio
-n = 100 #numero intervalos
+n = 200 #numero intervalos
 dx = L / n #discretizacion espacial
 
 x = linspace(0, L, n + 1)
@@ -12,19 +12,22 @@ x = linspace(0, L, n + 1)
 def fun_u0(x):
 	return 10*exp( - (x-0.5)**2/0.1**2)
 
+
+
 u0 = fun_u0(x)
 #creacion de nueva instancia
 u_k = u0.copy()
 
+
 #condiciones de borde
 u_k[0] = 0.
-u_k[n] = 20.
+u_k[n] = 40.
 
 #temperatura en el tiempo k +1
 u_km1 = u_k.copy()
 
 #aluminio
-dt = 1. #s, tiempo
+dt = 0.001 #s, tiempo
 K  = 237. #m2/s , conductividad termica
 c = 900. #j/kgC , calor especifico
 rho = 2698.4 #kg/m3 , densidad
@@ -40,20 +43,21 @@ print(alpha, " Alpha")
 plot(x,u0, "k--")
 
 k = 0
-for k in range(1000):
-	t = dt*k
-	print("k=", k, " t= ", t)
+for k in range(10000):
+	t = dt*k #tiempo
+	#print("k=", k, " t= ", t)
 
 	#loop en el espacio
 	#condicion de borde
 	u_km1[0] = 0.
-	u_km1[n] = 20.
+	u_km1[n] = 40.
 	for i in range(1,n):
 		#algoritmo diferencias finitas
-		u_km1[i] = u_k[i] + alpha*(u_k[i+1] - 2*u_k[i] + u_k[i-1])
+		u_km1[i] =  (t**0.5)*dt + u_k[i] + alpha*(u_k[i+1] - 2*u_k[i] + u_k[i-1])
 	u_k = u_km1
-	if k % 200 == 0:
+	if k % 500 == 0:
 		plot(x,u_k)
 
 title("k = {} t = {} s".format(k, k*dt))
+savefig("caso7.png")
 show()
