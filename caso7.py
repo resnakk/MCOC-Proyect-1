@@ -34,12 +34,6 @@ rho = 2698.4 #kg/m3 , densidad
 alpha = K*dt/(c*rho*dx**2)
 
 
-print(dt, " dt")
-print(K, " K")
-print(c, " c")
-print(rho, " rho")
-print(alpha, " Alpha")
-
 plot(x,u0, "k--")
 
 k = 0
@@ -58,7 +52,7 @@ for k in range(10000):
 	if k % 500 == 0:
 		plot(x,u_k)
 
-title("Grafico 7")
+title("Grafico 7, Aluminio")
 xlabel("Discretizacion espacial")
 ylabel("Temperatura °C")
 savefig("caso7.png")
