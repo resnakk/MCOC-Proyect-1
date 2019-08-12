@@ -59,6 +59,8 @@ for k in range(1000):
 plot(x,u0)
 plot(x,u_k)
 title("Grafico 1"	)
+xlabel("Discretización espacial")
+ylabel("Temperatura °C")
 savefig("caso1-1.png")
 #Caso 1.2, 7000 segundos
 plot(x, u0, "k--")
@@ -83,6 +85,8 @@ for k in range(10000):
 plot(x,u0)
 plot(x,u_k)
 title("Grafico 2")
+xlabel("Discretización espacial")
+ylabel("Temperatura °C")
 savefig("caso1-2.png")
 
 #Caso 1.3, 20.000 segundos
@@ -107,6 +111,8 @@ for k in range(20000):
 
 plot(x,u0)
 plot(x,u_k)
-title("Grafico 3")
+title("Grafico Caso 1, Hierro")
+xlabel("Discretización espacial")
+ylabel("Temperatura °C")
 savefig("caso1-3.png")
 

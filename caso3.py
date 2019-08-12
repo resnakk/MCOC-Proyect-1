@@ -38,7 +38,7 @@ print('alpha = ', alpha)
 #Loop en el tiempo
 plot(x, u0, "k--")
 k = 0
-for k in range(7000):
+for k in range(20000):
 	t = dt*k
 	print("k = ", k, "t = ", t)
 
@@ -57,5 +57,6 @@ for k in range(7000):
 
 plot(x,u0)
 plot(x,u_k)
-title("k = {}  t = {} ")
+title("Grafico Caso 3, Hierro")
+
 savefig("caso3.png")
