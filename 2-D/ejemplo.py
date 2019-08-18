@@ -27,7 +27,7 @@ def goodprint(u):
 	print(u.T[Nx::-1,:])
 
 def goodImshow(u):
- 	imshow(u.T[Nx::-1,:])
+	imshow(u.T[Nx::-1,:])
 u_k[0,:] = 20.
 u_k[:,0] = 20.
 print (u_k) #eje y invertido
@@ -51,12 +51,13 @@ for k in range(1):
 		for j in range(1, Ny - 1):
 			#Laplaciano
 			nabla_u_k = (u_k[i-1,j] + u_k[i + 1,j] + u_k[i,j+1] + u_k[i, j-1] - 4*u_k[i,j])/h**2
-    		# Algoritmo de diferencias finitas 1-D para la difusion
-    		u_k1[i,j] = u_k[i,j] + alpha*nabla_u_k
+			# Algoritmo de diferencias finitas 1-D para la difusion
+			u_k1[i,j] = u_k[i,j] + alpha*nabla_u_k
 	#CB Natural
 	u_k1[Nx, :] =  u_k1[Nx - 1, :]
 	u_k1[:, Ny] =  u_k1[:, Ny -1]	        
 	# Avanzar en la solucion
 	u_k = u_k1
-if k % 200 == 0:
-    goodImshow(u_k)
+	if k % 200 == 0:
+		goodImshow(u_k)
+		savefig()
