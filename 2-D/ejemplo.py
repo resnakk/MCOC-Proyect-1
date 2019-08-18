@@ -2,7 +2,7 @@
 from matplotlib.pylab import *
 a = 1. #Ancho del dominio
 b = 1. #Largo dell dominio
-Nx = 12 #Numero de intervalos en x
+Nx = 6 #Numero de intervalos en x
 Ny = 6 #Numero de intervalos en y
 dx  = a/Nx #Discretizacion espacial en x
 dy = b/Ny #Discretizacipn espacial en y
@@ -44,21 +44,19 @@ rho = 7140.  # densidad
 alpha = K * dt / (c * rho * dx ** 2)
 
 for k in range(1):
-    t = dt*(k + 1)
-	for ii in range(1, Nx - 1):
-    
-    #u_k[0, :] = 20.
+	t = dt*(k + 1)
+	for i in range(1, Nx - 1):
+	#u_k[0, :] = 20.
 	#u_k[:, 0] = 20.
-    	for jj in range(1, Ny - 1):
-    		#Laplaciano
-    		
-    		nabla_u_k = (u_k[ii-1,j] + u_k[ii + 1,j] + u_k[ii,jj+1] + u_k[ii, jj-1] - 4*u_k[ii,jj])/h**2
-	        # Algoritmo de diferencias finitas 1-D para la difusion
-	        u_k1[ii,jj] = u_k[ii,jj] + alpha*nabla_u_k[ii,jj]
+		for j in range(1, Ny - 1):
+			#Laplaciano
+			nabla_u_k = (u_k[i-1,j] + u_k[i + 1,j] + u_k[i,j+1] + u_k[i, j-1] - 4*u_k[i,j])/h**2
+    		# Algoritmo de diferencias finitas 1-D para la difusion
+    		u_k1[i,j] = u_k[i,j] + alpha*nabla_u_k
 	#CB Natural
-	u_k1[Nx, :] = u_k1 = u_k1[Nx - 1, :]
-	u_k1[:, Ny] = u_k1 = u_k1[:, Ny -1]	        
-    # Avanzar en la solucion
-    u_k = u_k1
-    if k % 200 == 0:
-        goodImshow(u_k)
+	u_k1[Nx, :] =  u_k1[Nx - 1, :]
+	u_k1[:, Ny] =  u_k1[:, Ny -1]	        
+	# Avanzar en la solucion
+	u_k = u_k1
+if k % 200 == 0:
+    goodImshow(u_k)
