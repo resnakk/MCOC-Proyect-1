@@ -85,7 +85,7 @@ dt = 60
 dnext_t = 1800   #  20.00
 next_t = 0.
 framenum = 0
-for k in range(int32(3600*24*3/dt)):
+for k in range(int32(3600*24*7/dt)):
     t = dt*(k+1)
     #print "k = ", k, " t = ", t
     

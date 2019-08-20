@@ -60,4 +60,4 @@ for k in range(1):
 	u_k = u_k1
 	if k % 200 == 0:
 		goodImshow(u_k)
-		savefig()
+		savefig("fig.png")
