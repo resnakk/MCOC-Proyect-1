@@ -1,9 +1,7 @@
 # MCOC-Proyecto-1 
-MCOC-Proyecto-1
 
 Introducción
 ==============
-
 Este proyecto se trata del estudio sobre la difusion de calor al interio de una probeta de hormigón de 1 metro cúbico, para lo que se desarrollará un modelo tri-dimensional que busca predecir las temperaturas producidas por la hidratacion del hormigón.
 
 Integrantes:
@@ -14,9 +12,6 @@ Integrantes:
 	Javier Marín
 	Mauricio Sánchez
 ```
-
-
-
 Referencias:
 ==============
 1.- Para el estudio de la comportación de la temperatura ambiente a traves del tiempo se utilizó la fórmula:

@@ -32,10 +32,10 @@ alpha = K * dt / (c * rho * dx ** 2)
 #Parametros para la modelacion de la temperatura ambiente segun el dia. Esta funcion la sacamos de un paper, cuyo link se encuentra en el README
 #Para estos parametros se asumio el 10 de marzo del 2018. y se extrajo la informacion de las temperatura de AccuWeather, en dichos dias, en San Carlos de Apoquindo
 
-Tmax = #Temperatura maxima en el dia
-Tmin = #Temperatura minima en el dia
-hmax = #Hora en que se alcanza la temperatura
-hmin = #Hora en la que se alcanza la temperatura minima 
+Tmax = 29 #Temperatura maxima en el dia
+Tmin = 13 #Temperatura minima en el dia
+hmax = 15 #Hora en que se alcanza la temperatura
+hmin = 5  #Hora en la que se alcanza la temperatura minima 
 
 A = (Tmax - Tmin)/2
 B = (Tmax + Tmin)/2
