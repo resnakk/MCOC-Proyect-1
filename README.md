@@ -36,3 +36,6 @@ Referencias:
 La cual fue obtenida de Propuesta metodlógica par la optimización de cemento: 
 https://tdx.cat/bitstream/handle/10803/6163/08Jaol08de15.pdf?sequence=8&isAllowed=y
 
+2.- Para la obtención de las temeraturas extremas, se extrajo informacion de AccuWeather, especificamente del lunes 10 de diciembre del 2018. Sin embargo no esta la información sobre a que hora se alcanzas enstas temperaturas, por lo que se asumio un hmax = 15:00, hmin = 05:00.
+(https://www.accuweather.com/es/cl/san-carlos/57580/december-weather/57580?monyr=12/1/2018&view=table)
+
