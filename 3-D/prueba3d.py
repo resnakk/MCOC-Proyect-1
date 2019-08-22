@@ -1,5 +1,5 @@
 from matplotlib.pylab import *
-import csv
+
 a = 1. #Ancho del dominio
 b = 1. #Largo del dominio
 c = 1. #Alto del dominio
@@ -40,8 +40,12 @@ for tiempo in range(1):
 				# Algoritmo de diferencias finitas 1-D para la difusion
 				u_k1[i,j] = u_k[i,j] + alpha*nabla_u_k
 	#CB Natural
-	#u_k1[Nx, :] =  u_k1[Nx - 1, :]
-	#u_k1[:, Ny] =  u_k1[:, Ny -1]	        
+	#Para estas condiciones de borde asumi como que la cara abierta (la de arriba) es la 
+	u_k1[Nx, :, :] =  u_k1[Nx - 1, :, :]
+	u_k1[:, Ny, :] =  u_k1[:, Ny - 1, :]
+    u_k1[:, :, Nz] =  u_k1[:, :, Nz - 1]
+    u_k1[0, :, :] = u_k1[1, :, :]
+    u_k1[:, :, 0] = u_k1[:, :, 1]   
 	
 	# Avanzar en la solucion
 	u_k = u_k1
