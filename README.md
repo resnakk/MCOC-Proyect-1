@@ -12,6 +12,16 @@ Integrantes:
 	Javier Marín
 	Mauricio Sánchez
 ```
+
+Supuestos:
+==============
+```
+	1.- dx = dy = dz ; La discretización espacial es regular en el espacio.
+	2.- du/dn = alpha(u - ua) ; El sistema es semi-adiabático.
+	3.- u_k[:,:,:] = 20. ; En un instante t = 0 el cuerpo en su totalidad se encuentra a temperatura ambiente.
+	4.- 
+```
+En primero lugar, para realizar el 
 Referencias:
 ==============
 1.- Para el estudio de la comportación de la temperatura ambiente a traves del tiempo se utilizó la fórmula:
