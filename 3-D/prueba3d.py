@@ -1,15 +1,15 @@
 from matplotlib.pylab import *
 
-a = 100. # Ancho del dominio
-b = 100. # Largo del dominio
-c = 100. # Alto del dominio
+a = 1.   # m, Largo del dominio
+b = 0.5  # m, Alto del dominio
+c = 0.55 # m, Ancho del dominio
 # Se asume un cubo de hormigon de 1 metro cubico, con dimensiones de 1 m de ancho, alto y largo. Pero se toma como unidad el cm.
 
 Nx = 20 # Numero de intervalos en x
-Ny = 20 # Numero de intervalos en y
-Nz = 20 # Numero de intervalos en z
+Ny = 10 # Numero de intervalos en y
+Nz = 11 # Numero de intervalos en z
 # Con este numero de intervalos, se esta generando un espacio vectorial en el que los puntos se encuentran a 5 cm de distancia (en planos 2-D)
-
+# Son distintos para que los deltas sean iguales.
 dx = a/Nx # Discretizacion espacial en x
 dy = b/Ny # Discretizacion espacial en y
 dz = c/Nz # Discretizacion espacial en z
@@ -23,12 +23,12 @@ u_k = zeros((Nx + 1, Ny + 1, Nz + 1), dtype = double)
 u_k1 = zeros((Nx + 1, Ny + 1, Nz + 1), dtype = double)
 
 # CB escenciales
-u_k[:,:,:] = 20.
+u_k[:, :, :] = 20.
 
 # Propiedades del hormigon
-K = 116.     # m^2 / s conductividad termica
-c = 390.     # J / kg*ºC calor especifico
-rho = 7140.  # kg/m^3 densidad
+K = 116.     # m^2 / s, conductividad termica
+c = 390.     # J / kg*ºC, calor especifico
+rho = 7140.  # kg/m^3, densidad
 
 #Arreglo de parametros
 alpha_0 = 0.0001
