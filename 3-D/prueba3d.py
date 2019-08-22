@@ -29,9 +29,22 @@ c = 390.  # calor especifico
 rho = 7140.  # densidad
 alpha = K * dt / (c * rho * dx ** 2)
 
+#Parametros para la modelacion de la temperatura ambiente segun el dia. Esta funcion la sacamos de un paper, cuyo link se encuentra en el README
+#Para estos parametros se asumio el 10 de marzo del 2018. y se extrajo la informacion de las temperatura de AccuWeather, en dichos dias, en San Carlos de Apoquindo
+
+Tmax = #Temperatura maxima en el dia
+Tmin = #Temperatura minima en el dia
+hmax = #Hora en que se alcanza la temperatura
+hmin = #Hora en la que se alcanza la temperatura minima 
+
+A = (Tmax - Tmin)/2
+B = (Tmax + Tmin)/2
+b1 = (hmax + hmin)/2
+b2 = (hmax - hmin)
+
 for tiempo in range(1):
 	t = dt*(tiempo + 1)
-	
+	u_a = A*sin(2*pi*(tiempo - b1)/(2*b2) + B)
 	for i in range(1, Nx - 1):
 		for j in range(1, Ny - 1):
 			for k in range(1, Nz - 1):
@@ -49,7 +62,6 @@ for tiempo in range(1):
 	
 	# Avanzar en la solucion
 	u_k = u_k1
-
 
 
 
