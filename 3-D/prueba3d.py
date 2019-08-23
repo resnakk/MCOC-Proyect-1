@@ -48,9 +48,16 @@ B = (Tmax + Tmin)/2  # C
 b1 = (hmax + hmin)/2 # s
 b2 = (hmax - hmin)   # s
 
-#Generacion de calor
-Cc = 154 # kg, cantidad de cemento
-Tc = 13 # C, 
+#Parametros para la generacion de calor generacion de calor
+Cc = 154    # kg, cantidad de cemento
+Tc = 20     # C, Temperatura del concreto
+Cr = 23     # C, Temperatura de referencia
+R = 8.31    # J / mol*k, Ctte universal de los gases
+E = 27000   # J / mol, Energia de activacion
+H = 374.24  #J / kg, Hu*alpha_u; Hu: Total de calor generado al 100% de hidratacion; aplha_u: ultimo grado de hidratacion
+beta = 1.05 # Pendiente de hidratacion
+thau = 10.3 # Parametro de hidratacion
+
 # Parametros para guardar las temperaturas de los puntos
 dnext_t = 1800 # s
 next_t = 0 # s
