@@ -1,5 +1,6 @@
 from matplotlib.pylab import *
 import csv
+import random
 
 a = 1.   # m, Largo del dominio
 b = 0.5  # m, Alto del dominio
@@ -49,7 +50,7 @@ beta = 1.05 # Pendiente de hidratacion
 thau = 10.3 # Parametro de hidratacion
 
 #Registro de temperatura ambiente
-with open('TemperaturaAmbiente.csv') as csv_file:
+with open('TemperaturaAmbiente.csv', encoding='latin-1') as csv_file:
 	csv_reader = csv.reader(csv_file, delimiter = ',')
 	line_count = 0
 	contador = 0
@@ -87,7 +88,7 @@ for tiempo in range(int32(3600*24*7/dt)): # Simulacion de los primeros 7 dias
 	# Avance del tiempo
 	t = dt*tiempo + 1
 	# CB Natural
-	u_k[:, :, :] = H*Cc*((thau/t)**beta)*exp(-(thau/t)**beta)*exp((E/R)*(1/(273 + Tr) - 1/(273 + Tc)))
+	u_k[10, 5, 6] = H*Cc*((thau/t)**beta)*exp(-(thau/t)**beta)*exp((E/R)*(1/(273 + Tr) - 1/(273 + Tc)))
 	u_k[:, Ny, :] = temps[tiempo% dt]
 	for i in range(1, Nx - 1):
 		for j in range(1, Ny - 1):
@@ -96,15 +97,16 @@ for tiempo in range(int32(3600*24*7/dt)): # Simulacion de los primeros 7 dias
 				# Laplaciano
 				nabla_u_k = (u_k[i - 1, j, k] + u_k[i + 1, j, k] + u_k[i, j - 1, k] + u_k[i, j + 1, k] + u_k[i, j, k - 1] + u_k[i, j, k + 1] - 6*u_k[i, j, k])/h**2
 				# Algoritmo de diferencias finitas 1-D para la difusion
-				u_k1[:,:] = u_k[i,j] + alpha*nabla_u_k
+				u_k1[i,j,k] = u_k[i,j,k] + alpha*nabla_u_k
 	
 	# CB Escenciales
 	# Para estas CB se asume que la cara abierta (la de arriba) es la u[:, Ny, :]
-	u_k1[Nx, :, :] = u_k1[Nx - 1, :, :]
-	u_k1[:, :, Nz] = u_k1[:, :, Nz - 1]
-	u_k1[0, :, :] = u_k1[1, :, :]
-	u_k1[:, 0, :] = u_k1[:, 0, :]  
-	u_k1[:, :, 0] = u_k1[:, :, 1]
+	u_k1[Nx, :, :] = u_k1[Nx - 1, :, :] 
+	u_k1[:, :, Nz] = u_k1[:, :, Nz - 1] 
+	u_k1[0, :, :] = u_k1[1, :, :] 
+	u_k1[:, 0, :] = u_k1[:, 0, :]   
+	u_k1[:, :, 0] = u_k1[:, :, 1]  
+	#u_k1[:, :, 0] = 20 
 
 	# Avanzar en la solucion
 	u_k = u_k1
@@ -115,8 +117,9 @@ for tiempo in range(int32(3600*24*7/dt)): # Simulacion de los primeros 7 dias
 		T_10.append(u_k[10,5,10])
 		T_5.append(u_k[10,8,6])
 		T_7.append(u_k[10,5,6])   
-		T_9.append(u_k[10,2,6])
+		T_9.append(u_k[1,2,0])
 		temp_g.append(temps[tiempo%dt])
+		print(T_7)
 		tiempos.append(t)
 
 #Ploteo de los puntos 
