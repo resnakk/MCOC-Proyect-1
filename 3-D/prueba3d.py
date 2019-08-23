@@ -3,7 +3,6 @@ from matplotlib.pylab import *
 a = 1.   # m, Largo del dominio
 b = 0.5  # m, Alto del dominio
 c = 0.6 # m, Ancho del dominio
-# Se asume un cubo de hormigon de 1 metro cubico, con dimensiones de 1 m de ancho, alto y largo. Pero se toma como unidad el cm.
 
 Nx = 20 # Numero de intervalos en x, @5 cm
 Ny = 10 # Numero de intervalos en y, @10 cm
@@ -28,12 +27,12 @@ u_k[:, :, :] = 20.
 
 # Propiedades del hormigon
 K = 116.     # m^2 / s, conductividad termica
-c = 390.     # J / kg*ºC, calor especifico
+c = 390.     # J / kg*C, calor especifico
 rho = 7140.  # kg/m^3, densidad
 
 #Arreglo de parametros
 alpha_0 = 0.0001
-dt = alpha_bueno*(c*rho*dx**2)/K
+dt = alpha_0*(c*rho*dx**2)/K
 alpha = K*dt/(c*rho*dx**2)
 dt = 60 # s
 
@@ -44,11 +43,14 @@ hmax = 1260000 # Hora en que se alcanza la temperatura maxima. corresponde a las
 hmin = 420000  # Hora en la que se alcanza la temperatura minima, corresponde a las 05:00 
 # Para estos parametros se asumio el 10 de marzo del 2018. y se extrajo la informacion de las temperatura de AccuWeather, en San Carlos de Apoquindo.
 
-A = (Tmax - Tmin)/2  # ºC
-B = (Tmax + Tmin)/2  # ºC
+A = (Tmax - Tmin)/2  # C
+B = (Tmax + Tmin)/2  # C
 b1 = (hmax + hmin)/2 # s
 b2 = (hmax - hmin)   # s
 
+#Generacion de calor
+Cc = 154 # kg, cantidad de cemento
+Tc = 13 # C, 
 # Parametros para guardar las temperaturas de los puntos
 dnext_t = 1800 # s
 next_t = 0 # s
@@ -56,10 +58,10 @@ next_t = 0 # s
 # Registro de temperaturas de puntos a lo largo
 T_1 = []
 
-#Registro de temperaturas puntos a lo ancho
+# Registro de temperaturas puntos a lo ancho
 T_10 = []
 
-#Registro de temperaturas puntos a lo alto
+# Registro de temperaturas puntos a lo alto
 T_5 = []
 T_7 = []
 T_9 = []
@@ -68,8 +70,8 @@ for tiempo in range(int32(3600*24*7)): # Simulacion de los primeros 7 dias
 	t = dt*(tiempo + 1)
 
 	# CB Natural
-	c = tiempo % 86400 # Segundos de un dia
-	if c >= 1
+	cte = tiempo % 86400 # Segundos de un dia
+	if cte >= 1:
 		u_a = A*sin(2*pi*((tiempo - c*86400) - b1)/(2*b2) + B)
 	else:
 		u_a = A*sin(2*pi*(tiempo - b1)/(2*b2) + B)
@@ -87,22 +89,28 @@ for tiempo in range(int32(3600*24*7)): # Simulacion de los primeros 7 dias
 	
 	# CB Naturales
 	# Para estas CB se asume que la cara abierta (la de arriba) es la u[:, Ny, :]
-	u_k1[Nx, :, :] - u_k1[Nx - 1, :, :] = alpha*(u_k1[Nx, :, :] - u_a)
-	u_k1[:, Ny, :] - u_k1[:, Ny - 1, :] = alpha*(u_k1[:, Ny, :] - u_a)
-	u_k1[:, :, Nz] - u_k1[:, :, Nz - 1] = = alpha*(u_k1[:, :, Nz] - u_a)
-	u_k1[0, :, :] - u_k1[1, :, :] = alpha*(u_k1[0, :, :] - u_a)
-	u_k1[:, :, 0] - u_k1[:, :, 1] = alpha*(u_k1[:, :, 0] - u_a)  
+	u_k1[Nx, :, :] = u_k1[Nx - 1, :, :]
+	u_k1[:, Ny, :] = u_k1[:, Ny - 1, :]
+	u_k1[:, :, Nz] = u_k1[:, :, Nz - 1]
+	u_k1[0, :, :] = u_k1[1, :, :]
+	u_k1[:, :, 0] = u_k1[:, :, 1]  
 	
 	# Avanzar en la solucion
 	u_k = u_k1
-	#Guarddo de temperatura cada 30 minutos
+	# Guarddo de temperatura cada 30 minutos
 	if t > next_t:
 		next_t += dnext_t
-		T_1.append(u_k[4,5,6])
-		T_10.append(u_k[10,5,10])
-		T_5.append(u_k[10,8,6])
-		T_7.append(u_k[10,5,6])   
-		T_9.append(u_k[10,2,6])
+		T_1.append([u_k[4,5,6], t])
+		T_10.append([u_k[10,5,10], t])
+		T_5.append([u_k[10,8,6], t])
+		T_7.append([u_k[10,5,6], t])   
+		T_9.append([u_k[10,2,6], t])
+
+#Ploteo de los puntos 
+xlabel('Tiempo (s)')
+ylabel('Temperatura (C)')
+title('Semana 1')
+
 
 
 
