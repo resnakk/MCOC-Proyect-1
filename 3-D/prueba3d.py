@@ -1,6 +1,5 @@
 from matplotlib.pylab import *
 import csv
-import random
 
 a = 1.   # m, Largo del dominio
 b = 0.5  # m, Alto del dominio
@@ -50,7 +49,7 @@ beta = 1.05 # Pendiente de hidratacion
 thau = 10.3 # Parametro de hidratacion
 
 #Registro de temperatura ambiente
-with open('TemperaturaAmbiente.csv', encoding='latin-1') as csv_file:
+with open('TemperaturaAmbiente.csv') as csv_file:
 	csv_reader = csv.reader(csv_file, delimiter = ',')
 	line_count = 0
 	contador = 0
@@ -107,8 +106,7 @@ for tiempo in range(int32(3600*24*7/dt)): # Simulacion de los primeros 7 dias
 	u_k1[0, :, :] = u_k1[1, :, :] 
 	u_k1[:, 0, :] = u_k1[:, 0, :]   
 	u_k1[:, :, 0] = u_k1[:, :, 1]  
-	#u_k1[:, :, 0] = 20 
-
+	
 	# Avanzar en la solucion
 	u_k = u_k1
 	# Guarddo de temperatura cada 30 minutos
@@ -120,7 +118,6 @@ for tiempo in range(int32(3600*24*7/dt)): # Simulacion de los primeros 7 dias
 		T_7.append(u_k[10,5,6])   
 		T_9.append(u_k[1,2,0])
 		temp_g.append(temps[tiempo%dt])
-		print(T_7)
 		tiempos.append(t)
 
 #Ploteo de los puntos 
