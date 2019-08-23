@@ -1,4 +1,5 @@
 from matplotlib.pylab import *
+import csv
 
 a = 1.   # m, Largo del dominio
 b = 0.5  # m, Alto del dominio
@@ -36,21 +37,10 @@ dt = alpha_0*(c*rho*dx**2)/K
 alpha = K*dt/(c*rho*dx**2)
 dt = 60 # s
 
-# Parametros para la modelacion de la temperatura ambiente segun el dia.
-Tmax = 29.     # Temperatura maxima en el dia
-Tmin = 13. 	   # Temperatura minima en el dia
-hmax = 1260000 # Hora en que se alcanza la temperatura maxima. corresponde a las 15:00
-hmin = 420000  # Hora en la que se alcanza la temperatura minima, corresponde a las 05:00 
-# Para estos parametros se asumio el 10 de marzo del 2018. y se extrajo la informacion de las temperatura de AccuWeather, en San Carlos de Apoquindo.
-
-A = (Tmax - Tmin)/2  # C
-B = (Tmax + Tmin)/2  # C
-b1 = (hmax + hmin)/2 # s
-b2 = (hmax - hmin)   # s
-
-#Parametros para la generacion de calor generacion de calor
+# Parametros para la generacion de calor generacion de calor
 Cc = 154    # kg, cantidad de cemento
 Tc = 20     # C, Temperatura del concreto
+Tr = 23 	# C, Temperatura de referencia
 Cr = 23     # C, Temperatura de referencia
 R = 8.31    # J / mol*k, Ctte universal de los gases
 E = 27000   # J / mol, Energia de activacion
@@ -58,10 +48,25 @@ H = 374.24  #J / kg, Hu*alpha_u; Hu: Total de calor generado al 100% de hidratac
 beta = 1.05 # Pendiente de hidratacion
 thau = 10.3 # Parametro de hidratacion
 
-# Parametros para guardar las temperaturas de los puntos
-dnext_t = 1800 # s
-next_t = 0 # s
-
+#Registro de temperatura ambiente
+with open('TemperaturaAmbiente.csv') as csv_file:
+	csv_reader = csv.reader(csv_file, delimiter = ',')
+	line_count = 0
+	contador = 0
+	temps = []
+	for row in csv_reader:
+		contador += 1
+		if contador < 30:
+			continue
+		else:
+			contador = 0
+			if line_count == 0:
+				line_count += 1
+			else:
+				temps.append(float(row[3]))
+				line_count += 1
+				if len(temps) == int32(3600*24*7/dt):
+					break
 # Registro de temperaturas de puntos a lo largo
 T_1 = []
 
@@ -72,19 +77,18 @@ T_10 = []
 T_5 = []
 T_7 = []
 T_9 = []
-for tiempo in range(int32(3600*24*7)): # Simulacion de los primeros 7 dias
-	# Avance del tiempo
-	t = dt*(tiempo + 1)
 
+# Parametros para guardar las temperaturas de los puntos
+dnext_t = 1800 # s
+next_t = 0 # s
+tiempos = []
+for tiempo in range(len(temps)): # Simulacion de los primeros 7 dias
+	# Avance del tiempo
+	t = dt*tiempo + 1
 	# CB Natural
-	cte = tiempo % 86400 # Segundos de un dia
-	if cte >= 1:
-		u_a = A*sin(2*pi*((tiempo - c*86400) - b1)/(2*b2) + B)
-	else:
-		u_a = A*sin(2*pi*(tiempo - b1)/(2*b2) + B)
-	# Esta funcion la sacamos de un paper, cuyo link se encuentra en el README
-	# Este if es para hacer un ciclo entre los dias, para simplificar el problema.	
-	
+	u_k[:, :, :] = H*Cc*((thau/t)**beta)*exp(-(thau/t)**beta)*exp((E/R)*(1/(273 + Tr) - 1/(273 + Tc)))
+	print temps[tiempo]
+	u_k[:, Ny, :] = temps[tiempo]
 	for i in range(1, Nx - 1):
 		for j in range(1, Ny - 1):
 			for k in range(1, Nz - 1):
@@ -94,41 +98,34 @@ for tiempo in range(int32(3600*24*7)): # Simulacion de los primeros 7 dias
 				# Algoritmo de diferencias finitas 1-D para la difusion
 				u_k1[i,j] = u_k[i,j] + alpha*nabla_u_k
 	
-	# CB Naturales
+	# CB Escenciales
 	# Para estas CB se asume que la cara abierta (la de arriba) es la u[:, Ny, :]
 	u_k1[Nx, :, :] = u_k1[Nx - 1, :, :]
-	u_k1[:, Ny, :] = u_k1[:, Ny - 1, :]
 	u_k1[:, :, Nz] = u_k1[:, :, Nz - 1]
 	u_k1[0, :, :] = u_k1[1, :, :]
-	u_k1[:, :, 0] = u_k1[:, :, 1]  
-	
+	u_k1[:, 0, :] = u_k1[:, 0, :]  
+	u_k1[:, :, 0] = u_k1[:, :, 1]
+
 	# Avanzar en la solucion
 	u_k = u_k1
 	# Guarddo de temperatura cada 30 minutos
 	if t > next_t:
 		next_t += dnext_t
-		T_1.append([u_k[4,5,6], t])
-		T_10.append([u_k[10,5,10], t])
-		T_5.append([u_k[10,8,6], t])
-		T_7.append([u_k[10,5,6], t])   
-		T_9.append([u_k[10,2,6], t])
+		T_1.append(u_k[4,5,6])
+		T_10.append(u_k[10,5,10])
+		T_5.append(u_k[10,8,6])
+		T_7.append(u_k[10,5,6])   
+		T_9.append(u_k[10,2,6])
+		tiempos.append(t)
 
 #Ploteo de los puntos 
 xlabel('Tiempo (s)')
 ylabel('Temperatura (C)')
 title('Semana 1')
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+plot(tiempos, T_1, label = 'T1')
+plot(tiempos, T_10, label = 'T10')
+plot(tiempos, T_5, label = 'T5')
+plot(tiempos, T_7, label = 'T7')
+plot(tiempos, T_9, label = 'T9')
+legend()
+savefig('grafico.png')

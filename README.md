@@ -19,7 +19,8 @@ Supuestos:
 	1.- dx = dy = dz ; La discretización espacial es regular en el espacio.
 	2.- du/dn = alpha(u - ua) ; El sistema es semi-adiabático.
 	3.- u_k[:,:,:] = 20. ; En un instante t = 0 el cuerpo en su totalidad se encuentra a temperatura ambiente.
-	4.- 
+	4.- El material es homogeneo.
+	5.- El cemento se hidrata igualmente en todas partes.
 ```
 En primero lugar, para realizar el 
 Referencias:
