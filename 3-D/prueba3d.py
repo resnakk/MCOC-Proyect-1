@@ -96,7 +96,7 @@ for tiempo in range(int32(3600*24*7/dt)): # Simulacion de los primeros 7 dias
 				# Laplaciano
 				nabla_u_k = (u_k[i - 1, j, k] + u_k[i + 1, j, k] + u_k[i, j - 1, k] + u_k[i, j + 1, k] + u_k[i, j, k - 1] + u_k[i, j, k + 1] - 6*u_k[i, j, k])/h**2
 				# Algoritmo de diferencias finitas 1-D para la difusion
-				u_k1[:,:] = u_k[i,j] + alpha*nabla_u_k
+				u_k1[i,j] = u_k[i,j] + alpha*nabla_u_k
 	
 	# CB Escenciales
 	# Para estas CB se asume que la cara abierta (la de arriba) es la u[:, Ny, :]
