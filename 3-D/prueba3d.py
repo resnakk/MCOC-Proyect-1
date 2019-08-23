@@ -35,7 +35,7 @@ rho = 7140.  # kg/m^3, densidad
 alpha_0 = 0.0001
 dt = alpha_0*(c*rho*dx**2)/K
 alpha = K*dt/(c*rho*dx**2)
-dt = 60 # s
+dt = 1800 # s
 
 # Parametros para la generacion de calor generacion de calor
 Cc = 154    # kg, cantidad de cemento
@@ -79,7 +79,7 @@ T_7 = []
 T_9 = []
 
 # Parametros para guardar las temperaturas de los puntos
-dnext_t = 1800/dt # s
+dnext_t = 18000/dt # s
 next_t = 0 # s
 tiempos = []
 temp_g = []
@@ -96,7 +96,7 @@ for tiempo in range(int32(3600*24*7/dt)): # Simulacion de los primeros 7 dias
 				# Laplaciano
 				nabla_u_k = (u_k[i - 1, j, k] + u_k[i + 1, j, k] + u_k[i, j - 1, k] + u_k[i, j + 1, k] + u_k[i, j, k - 1] + u_k[i, j, k + 1] - 6*u_k[i, j, k])/h**2
 				# Algoritmo de diferencias finitas 1-D para la difusion
-				u_k1[i,j] = u_k[i,j] + alpha*nabla_u_k
+				u_k1[:,:] = u_k[i,j] + alpha*nabla_u_k
 	
 	# CB Escenciales
 	# Para estas CB se asume que la cara abierta (la de arriba) es la u[:, Ny, :]
