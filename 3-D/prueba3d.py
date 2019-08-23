@@ -2,14 +2,15 @@ from matplotlib.pylab import *
 
 a = 1.   # m, Largo del dominio
 b = 0.5  # m, Alto del dominio
-c = 0.55 # m, Ancho del dominio
+c = 0.6 # m, Ancho del dominio
 # Se asume un cubo de hormigon de 1 metro cubico, con dimensiones de 1 m de ancho, alto y largo. Pero se toma como unidad el cm.
 
-Nx = 20 # Numero de intervalos en x
-Ny = 10 # Numero de intervalos en y
-Nz = 11 # Numero de intervalos en z
+Nx = 20 # Numero de intervalos en x, @5 cm
+Ny = 10 # Numero de intervalos en y, @10 cm
+Nz = 12 # Numero de intervalos en z, @5 cm
 # Con este numero de intervalos, se esta generando un espacio vectorial en el que los puntos se encuentran a 5 cm de distancia (en planos 2-D)
 # Son distintos para que los deltas sean iguales.
+
 dx = a/Nx # Discretizacion espacial en x
 dy = b/Ny # Discretizacion espacial en y
 dz = c/Nz # Discretizacion espacial en z
@@ -49,9 +50,19 @@ b1 = (hmax + hmin)/2 # s
 b2 = (hmax - hmin)   # s
 
 # Parametros para guardar las temperaturas de los puntos
-t_1 = 1800 # s
-t_0 = 0 # s
+dnext_t = 1800 # s
+next_t = 0 # s
 
+# Registro de temperaturas de puntos a lo largo
+T_1 = []
+
+#Registro de temperaturas puntos a lo ancho
+T_10 = []
+
+#Registro de temperaturas puntos a lo alto
+T_5 = []
+T_7 = []
+T_9 = []
 for tiempo in range(int32(3600*24*7)): # Simulacion de los primeros 7 dias
 	# Avance del tiempo
 	t = dt*(tiempo + 1)
@@ -84,6 +95,25 @@ for tiempo in range(int32(3600*24*7)): # Simulacion de los primeros 7 dias
 	
 	# Avanzar en la solucion
 	u_k = u_k1
+	#Guarddo de temperatura cada 30 minutos
+	if t > next_t:
+		next_t += dnext_t
+		T_1.append(u_k[4,5,6])
+		T_10.append(u_k[10,5,10])
+		T_5.append(u_k[10,8,6])
+		T_7.append(u_k[10,5,6])   
+		T_9.append(u_k[10,2,6])
+
+
+
+
+
+
+
+
+
+
+
 
 
 
