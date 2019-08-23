@@ -63,10 +63,10 @@ with open('TemperaturaAmbiente.csv') as csv_file:
 			if line_count == 0:
 				line_count += 1
 			else:
-				temps.append(float(row[3]))
-				line_count += 1
 				if len(temps) == int32(3600*24*7/dt):
 					break
+				temps.append(float(row[3]))
+				line_count += 1
 # Registro de temperaturas de puntos a lo largo
 T_1 = []
 
@@ -79,16 +79,16 @@ T_7 = []
 T_9 = []
 
 # Parametros para guardar las temperaturas de los puntos
-dnext_t = 1800 # s
+dnext_t = 1800/dt # s
 next_t = 0 # s
 tiempos = []
-for tiempo in range(len(temps)): # Simulacion de los primeros 7 dias
+temp_g = []
+for tiempo in range(int32(3600*24*7/dt)): # Simulacion de los primeros 7 dias
 	# Avance del tiempo
 	t = dt*tiempo + 1
 	# CB Natural
 	u_k[:, :, :] = H*Cc*((thau/t)**beta)*exp(-(thau/t)**beta)*exp((E/R)*(1/(273 + Tr) - 1/(273 + Tc)))
-	print temps[tiempo]
-	u_k[:, Ny, :] = temps[tiempo]
+	u_k[:, Ny, :] = temps[tiempo% dt]
 	for i in range(1, Nx - 1):
 		for j in range(1, Ny - 1):
 			for k in range(1, Nz - 1):
@@ -109,13 +109,14 @@ for tiempo in range(len(temps)): # Simulacion de los primeros 7 dias
 	# Avanzar en la solucion
 	u_k = u_k1
 	# Guarddo de temperatura cada 30 minutos
-	if t > next_t:
+	if tiempo >= next_t:
 		next_t += dnext_t
 		T_1.append(u_k[4,5,6])
 		T_10.append(u_k[10,5,10])
 		T_5.append(u_k[10,8,6])
 		T_7.append(u_k[10,5,6])   
 		T_9.append(u_k[10,2,6])
+		temp_g.append(temps[tiempo%dt])
 		tiempos.append(t)
 
 #Ploteo de los puntos 
@@ -127,5 +128,6 @@ plot(tiempos, T_10, label = 'T10')
 plot(tiempos, T_5, label = 'T5')
 plot(tiempos, T_7, label = 'T7')
 plot(tiempos, T_9, label = 'T9')
+plot(tiempos, temp_g, label = 'Ambiente')
 legend()
 savefig('grafico.png')
